@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<form name="sendAvatar">
+  <input type="file" name="avatar">
+  <input type="submit">
+
+</form>
+
+<script>
+  document.forms.sendAvatar.onsubmit = async (ev) => {
+    ev.preventDefault(); // Отключаем стандартное поведение формы
+
+    // Создаем объект FormData для передачи данных
+    const formData = new FormData(ev.target);
+
+    try {
+      // Отправляем fetch-запрос
+      const response = await fetch('/upload-azure', {
+        method: 'POST',
+        body: formData, // Передаем файл как тело запроса
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Файл успешно загружен:', result);
+      } else {
+        console.error('Ошибка загрузки:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Ошибка:', error);
+    }
+
+  };
+</script>
+</body>
+</html>
