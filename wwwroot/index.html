@@ -7,37 +7,76 @@
 
 <body>
 
-<form name="sendAvatar">
-  <input type="file" name="avatar">
-  <input type="submit">
+<!--<form name="sendAvatar">-->
+<!--  <input type="file" name="avatar">-->
+<!--  <input type="submit">-->
 
+<!--</form>-->
+
+<form name="sendAvatarDefault">
+    <h1>To Default</h1>
+    <input type="file" name="avatar">
+    <input type="submit">
+</form>
+
+<form name="sendAvatarLocal">
+    <h1>To Local</h1>
+    <input type="file" name="avatar">
+    <input type="submit">
 </form>
 
 <script>
-  document.forms.sendAvatar.onsubmit = async (ev) => {
-    ev.preventDefault(); // Отключаем стандартное поведение формы
+    document.forms.sendAvatarDefault.onsubmit = async (ev) => {
+        ev.preventDefault(); // Отключаем стандартное поведение формы
 
-    // Создаем объект FormData для передачи данных
-    const formData = new FormData(ev.target);
+        // Создаем объект FormData для передачи данных
+        const formData = new FormData(ev.target);
 
-    try {
-      // Отправляем fetch-запрос
-      const response = await fetch('/upload-azure', {
-        method: 'POST',
-        body: formData, // Передаем файл как тело запроса
-      });
+        try {
+            // Отправляем fetch-запрос
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData, // Передаем файл как тело запроса
+            });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Файл успешно загружен:', result);
-      } else {
-        console.error('Ошибка загрузки:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+            // Обрабатываем ответ сервера
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Файл успешно загружен:', result);
+            } else {
+                console.error('Ошибка загрузки:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    };
+</script>
 
-  };
+<script>
+    document.forms.sendAvatarLocal.onsubmit = async (ev) => {
+        ev.preventDefault(); // Отключаем стандартное поведение формы
+
+        // Создаем объект FormData для передачи данных
+        const formData = new FormData(ev.target);
+
+        try {
+            // Отправляем fetch-запрос
+            const response = await fetch('/upload-local', {
+                method: 'POST',
+                body: formData, // Передаем файл как тело запроса
+            });
+
+            // Обрабатываем ответ сервера
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Файл успешно загружен:', result);
+            } else {
+                console.error('Ошибка загрузки:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    };
 </script>
 </body>
 </html>
