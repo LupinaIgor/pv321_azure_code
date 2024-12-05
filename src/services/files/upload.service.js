@@ -3,4 +3,4 @@ import {uploadToLocal} from "./uploadToLocal.js";
 
 //export const  uploadFile = uploadToAzure
 
-export const  uploadFile = uploadToLocal()
+export const  uploadFile = uploadToLocal
